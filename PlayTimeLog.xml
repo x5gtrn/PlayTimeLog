@@ -1,0 +1,151 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\..\FrameXML\UI.xsd">
+	<Script file="PlayTimeLog.lua" />
+	<Frame name="PlayTimeLogFrame" parent="UIParent" movable="true" resizable="false" enableMouse="true" >
+		<Size>
+			<AbsDimension x="200" y="200"/>
+		</Size>
+		<Anchors>
+			<Anchor point="BOTTOMRIGHT" relativeTo="UIParent">
+				<Offset x="-5" y="80" />
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="4" right="4" top="4" bottom="4" />
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="16" />
+			</EdgeSize>
+		</Backdrop>
+		
+		<Layers>
+			<!-- Title Header -->
+			<Layer name="Header" level="ARTWORK">
+				<Texture name="$parent_Border" hidden="false" file="Interface\DialogFrame\UI-DialogBox-Header">
+					<Size x="160" y="34"/>
+					<Anchors>
+						<Anchor point="TOP" relativeTo="PlayTimeLogFrame">
+							<Offset x="0" y="13"/>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.2" right="0.8" top="0" bottom="0.6" />
+				</Texture>
+			</Layer>
+			<Layer name="HeaderLabel" level="OVERLAY">
+				<FontString name="$parent_String" inherits="GameFontNormal" justifyV="MIDDLE" justifyH="CENTER" font="Fonts\FRIZQT__.TTF" text="Play Time Log">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="PlayTimeLogFrame">
+							<Offset x="54" y="2"/>
+						</Anchor>
+					</Anchors>
+					<Color r="1" g="1" b="1" />
+				</FontString>
+			</Layer>
+			
+			<!-- ** Today Info Labels ** -->
+			<!-- Today Label -->
+			<Layer name="TodayLabel" hidden="false" level="OVERLAY">
+				<FontString name="TodayLabel_String" hidden="false" inherits="SystemFont_Small" justifyV="MIDDLE" justifyH="LEFT" text="Today:">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="PlayTimeLogFrame">
+							<Offset>
+								<AbsDimension x="10" y="-25" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<Size x="100" y="0" />
+					<Color r="1" g="1" b="1" />
+				</FontString>
+			</Layer>
+			<!-- Today Value -->
+			<Layer name="TodayValue" hidden="false" level="OVERLAY">
+				<FontString name="TodayValue_String" hidden="false" inherits="SystemFont_Small" justify="MIDDLE" justifyH="LEFT" text="00h 00m">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="PlayTimeLogFrame">
+							<Offset>
+								<AbsDimension x="90" y="-25" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<Size x="0" y="0" />
+					<Color r="1" g="1" b="1" />
+				</FontString>
+			</Layer>
+			
+			<!-- ** 7Days Average Info Labels ** -->
+			<!-- 7Days Ave. Label -->
+			<Layer name="L7ALabel" hidden="false" level="OVERLAY">
+				<FontString name="L7ALabel_String" hidden="false" inherits="SystemFont_Small" justifyV="MIDDLE" justifyH="LEFT" text="7Days Ave.:">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="PlayTimeLogFrame">
+							<Offset>
+								<AbsDimension x="10" y="-38" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<Size x="100" y="0" />
+					<Color r="1" g="1" b="1" />
+				</FontString>
+			</Layer>
+			<!-- 7Days Ave. Value -->
+			<Layer name="L7AValue" hidden="false" level="OVERLAY">
+				<FontString name="L7AValue_String" hidden="false" inherits="SystemFont_Small" justifyV="MIDDLE" justifyH="LEFT" text="00h 00m">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="PlayTimeLogFrame">
+							<Offset>
+								<AbsDimension x="90" y="-38" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<Size x="50" y="0" />
+					<Color r="1" g="1" b="1" />
+				</FontString>
+			</Layer>
+			
+		</Layers>
+		
+		<Frames>
+			<!-- Close Button -->
+			<Button name="CloseButton" inherits="UIPanelCloseButton">
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativeTo="PlayTimeLogFrame" relativePoint="TOPRIGHT">
+						<Size>
+							<AbsDimension x="6" y="6" />
+						</Size>
+						<Offset>
+							<AbsDimension x="2" y="2" />
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						PlayTimeLogFrame:Hide();
+						PlayTimeLogPCDB.showWindow = false;
+					</OnClick>
+				</Scripts>
+			</Button>
+		</Frames>
+		
+		<Scripts>
+			<OnLoad>
+				PlayTimeLog_OnLoad(self);
+				this:RegisterForDrag("LeftButton");
+			</OnLoad>
+			<OnEvent>
+				PlayTimeLog_OnEvent(self, event, ...);
+			</OnEvent>
+			<OnDragStart>
+				this:StartMoving();
+				this.isMoving = true;
+			</OnDragStart>
+			<OnDragStop>
+				this:StopMovingOrSizing();
+				this.isMoving = false;
+			</OnDragStop>
+		</Scripts>
+		
+	</Frame>
+</Ui>
