@@ -122,8 +122,8 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						PlayTimeLogFrame:Hide();
-						PlayTimeLogPCDB.showWindow = false;
+						PlayTimeLogFrame:Hide()
+						PlayTimeLogPCDB.showWindow = false
 					</OnClick>
 				</Scripts>
 			</Button>
@@ -131,19 +131,19 @@
 		
 		<Scripts>
 			<OnLoad>
-				PlayTimeLog_OnLoad(self);
-				this:RegisterForDrag("LeftButton");
+				PlayTimeLog_OnLoad(self)
+				this:RegisterForDrag("LeftButton")
 			</OnLoad>
 			<OnEvent>
-				PlayTimeLog_OnEvent(self, event, ...);
+				PlayTimeLog_OnEvent(self, event, ...)
 			</OnEvent>
 			<OnDragStart>
-				this:StartMoving();
-				this.isMoving = true;
+				this:StartMoving()
+				this.isMoving = true
 			</OnDragStart>
 			<OnDragStop>
-				this:StopMovingOrSizing();
-				this.isMoving = false;
+				this:StopMovingOrSizing()
+				this.isMoving = false
 			</OnDragStop>
 		</Scripts>
 		
