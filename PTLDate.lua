@@ -15,14 +15,14 @@ function PlayTimeLog_GetTruncDay (t, c)
 	})
 end
 
-function PlayTimeLog_GetDays (t)
+function PlayTimeLog_GetDay (t)
 	if (not t or t < 0) then
 		return 0
 	end
 	return floor(t / 24 / 60 / 60)
 end
 
-function PlayTimeLog_GetHours (t)
+function PlayTimeLog_GetHour (t)
 	if (not t or t < 0) then
 		return 0
 	end
@@ -30,7 +30,12 @@ function PlayTimeLog_GetHours (t)
 	return floor(t / 60 / 60)
 end
 
-function PlayTimeLog_GetMinutes (t)
+function PlayTimeLog_GetHours (t)
+	local days = PlayTimeLog_GetDay(t) * 24
+	return PlayTimeLog_GetHour(t) + days
+end
+
+function PlayTimeLog_GetMinute (t)
 	if (not t or t < 0) then
 		return 0
 	end
@@ -39,7 +44,12 @@ function PlayTimeLog_GetMinutes (t)
 	return floor(t / 60)
 end
 
-function PlayTimeLog_GetSeconds (t)
+function PlayTimeLog_GetMinutes (t)
+	local hours = PlayTimeLog_GetHours(t) * 60
+	return PlayTimeLog_GetMinute(t) + hours
+end
+
+function PlayTimeLog_GetSecond (t)
 	if (not t or t < 0) then
 		return 0
 	end
@@ -54,10 +64,10 @@ function PlayTimeLog_GetFormatedTimeText (t)
 		return "N/A"
 	end
 	
-	local days = getDays(t)
-	local hours = getHours(t)
-	local minutes = getMinutes(t)
-	local seconds = getSeconds(t)
+	local days = PlayTimeLog_GetDay(t)
+	local hours = PlayTimeLog_GetHour(t)
+	local minutes = PlayTimeLog_GetMinute(t)
+	local seconds = PlayTimeLog_GetSecond(t)
 	
 	local timeText = ""
 	if (days ~= 0) then
