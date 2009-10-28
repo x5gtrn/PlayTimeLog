@@ -11,3 +11,6 @@
 ## SavedVariablesPerCharacter: PlayTimeLogPCDB
 ## Dependencies:
 PlayTimeLog.xml
+PTLSave.lua
+PTLDate.lua
+PTLCalc.lua
