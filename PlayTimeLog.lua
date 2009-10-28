@@ -49,7 +49,7 @@ function PlayTimeLog_SlashCommandHanlder (self, command)
 		PlayTimeLog_startSessionTime = time()
 		local date = PlayTimeLog_SavePlayTime(playTime)
 		
-		PlayTimeLog_CalculateAndSet()
+		PlayTimeLog_CalculateAndSet(date)
 		PlayTimeLogFrame:Show()
 	
 	elseif (command == "resetchara") then
@@ -65,12 +65,11 @@ function PlayTimeLog_SlashCommandHanlder (self, command)
 		if PlayTimeLogDebug then
 			local playTime = time() - PlayTimeLog_startSessionTime
 			PlayTimeLog_startSessionTime = time()
-			local todayTime = PlayTimeLog_SavePlayTime(playTime)
+			local today = PlayTimeLog_SavePlayTime(playTime)
 			
 			PlayTimeLog_ShowDebugMessage(
-				"Today =" .. todayTime ..
-				"(" .. PlayTimeLog_GetHours(todayTime) * 60
-					+ PlayTimeLog_GetMinutes(todayTime) .. "min)")
+				"Today =" .. today ..
+				"(" .. PlayTimeLog_GetMinutes(PlayTimeLogDB.dailyLog[tostring(today)]) .. "min)")
 			PlayTimeLog_ShowDebugMessage(
 				"DB.dailyLog size=" .. #PlayTimeLogDB.dailyLog)
 			PlayTimeLog_ShowDebugMessage(
