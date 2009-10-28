@@ -7,9 +7,9 @@ PlayTimeLogDB = {
 PlayTimeLogPCDB = {
 	dailyLog = {nil},
 }
+PlayTimeLog_startSessionTime = nil
 local PlayTimeLogDebug = true
 local MH = "PlayTimeLog: "
-local startSessionTime = nil
 
 ---------------------------------
 -- functions called from frame --
@@ -31,12 +31,12 @@ end
 function PlayTimeLog_OnEvent (self, event, ...)
 	if (event == "PLAYER_ENTERING_WORLD") then
 		PlayTimeLogFrame:Hide()
-		startSessionTime = self.startSessionTime
-		startSessionTime = time()
+		PlayTimeLog_startSessionTime = self.startSessionTime
+		PlayTimeLog_startSessionTime = time()
 	
 	elseif (event == "PLAYER_LOGOUT") then
-		local playTime = time() - startSessionTime
-		PlayTimeLog_SavePlayTime(startSessionTime, playTime)
+		local playTime = time() - PlayTimeLog_startSessionTime
+		PlayTimeLog_SavePlayTime(playTime)
 	end
 end
 
@@ -44,7 +44,11 @@ end
 -- functions of command & debug --
 ----------------------------------
 function PlayTimeLog_SlashCommandHanlder (self, command)
-	if (command == "") then
+	if (command == "" or command == "show") then
+		local playTime = time() - PlayTimeLog_startSessionTime
+		PlayTimeLog_startSessionTime = time()
+		local date = PlayTimeLog_SavePlayTime(playTime)
+		
 		PlayTimeLog_CalculateAndSet()
 		PlayTimeLogFrame:Show()
 	
@@ -58,15 +62,20 @@ function PlayTimeLog_SlashCommandHanlder (self, command)
 		DEFAULT_CHAT_FRAME:AddMessage(MH .. "All logs are cleared.", 1.0)
 	
 	elseif (command == "debug") then
-		local todayTime = PlayTimeLog_GetTime_Toady()
-		PlayTimeLog_ShowDebugMessage(
-			"Today =" .. todayTime ..
-			"(" .. PlayTimeLog_GetHours(todayTime) * 60
-				+ PlayTimeLog_GetMinutes(todayTime) .. "min)")
-		PlayTimeLog_ShowDebugMessage(
-			"DB.dailyLog size=" .. #PlayTimeLogDB.dailyLog)
-		PlayTimeLog_ShowDebugMessage(
-			"PCDB.dailyLog size=" .. #PlayTimeLogPCDB.dailyLog)
+		if PlayTimeLogDebug then
+			local playTime = time() - PlayTimeLog_startSessionTime
+			PlayTimeLog_startSessionTime = time()
+			local todayTime = PlayTimeLog_SavePlayTime(playTime)
+			
+			PlayTimeLog_ShowDebugMessage(
+				"Today =" .. todayTime ..
+				"(" .. PlayTimeLog_GetHours(todayTime) * 60
+					+ PlayTimeLog_GetMinutes(todayTime) .. "min)")
+			PlayTimeLog_ShowDebugMessage(
+				"DB.dailyLog size=" .. #PlayTimeLogDB.dailyLog)
+			PlayTimeLog_ShowDebugMessage(
+				"PCDB.dailyLog size=" .. #PlayTimeLogPCDB.dailyLog)
+		end
 	
 	else
 		DEFAULT_CHAT_FRAME:AddMessage(MH .. "Invalid command.")

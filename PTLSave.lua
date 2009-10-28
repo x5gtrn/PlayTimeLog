@@ -1,8 +1,8 @@
 -----------------------------------
 -- functions of saving play time --
 -----------------------------------
-function PlayTimeLog_SavePlayTime (startTime, playTime)
-	local t = startTime
+function PlayTimeLog_SavePlayTime (playTime)
+	local t = PlayTimeLog_startSessionTime
 	while (PlayTimeLog_GetTruncDay(t, 1) - t < playTime) do
 		local addingTime = PlayTimeLog_GetTruncDay(t, 1) - t
 		PlayTimeLog_AddPlayTimeToDailyLog(PlayTimeLog_GetTruncDay(t), addingTime)
